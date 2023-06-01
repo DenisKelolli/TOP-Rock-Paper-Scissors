@@ -1,67 +1,77 @@
 
-
+const playerRockButton = document.querySelector(".player_rock_button");
+const playerPaperButton = document.querySelector(".player_paper_button");
+const playerScissorsButton = document.querySelector(".player_scissors_button");
+const playerChoice = document.querySelector(".player_choice");
+let playerScore = document.querySelector(".player_score");
+const computerChoice = document.querySelector(".computer_choice");
+let computerScore = document.querySelector(".computer_score");
+const winnerSelectionText = document.querySelector(".winner_selection_text");
+playerScore.textContent = "0"
+computerScore.textContent = "0";
+  
+   
+ 
 const choices = ["rock", "paper", "scissors"];
-
-
-function getPlayerChoice(){
-    playerChoice = prompt("Choose Rock, Paper or Scissors: ").toLowerCase();
-    console.log("The player choice is " + playerChoice);
-    return playerChoice;
-}
 
 function getComputerChoice (array){
     const choicesIndex = Math.floor(Math.random()*array.length);
-    console.log("The computer choice is " + array[choicesIndex]);
     return array[choicesIndex];
 }
 
-
-
-
-function playRound(playerSelection,computerSelection){
-    if ((playerSelection === "rock" && computerSelection === "rock") ||
-       ((playerSelection === "paper" && computerSelection === "paper")) ||
-       (playerSelection === "scissors" && computerSelection === "scissors")){
-            return "There is a tie!";
+const playGame = function(){
+    if (playerScore.textContent === "5" || computerScore.textContent === "5") {
+        location.reload();
+        return; // Stop playing if a player has reached 5
     }
-    else if ((playerSelection === "rock" && computerSelection === "scissors") ||
-            ((playerSelection === "paper" && computerSelection === "rock")) ||
-            (playerSelection === "scissors" && computerSelection === "paper")){
-                return "The player is the winner of this round";
+    if ((playerChoice.textContent === "rock" && computerChoice.textContent === "scissors") ||
+        ((playerChoice.textContent === "paper" && computerChoice.textContent === "rock")) ||
+        (playerChoice.textContent === "scissors" && computerChoice.textContent === "paper")){
+        playerScore.textContent ++;
+            if(playerScore.textContent === "5"){
+                winnerSelectionText.textContent = "The player is the winner!";
+            }
     }
-    else if ((playerSelection === "scissors" && computerSelection === "rock") ||
-            ((playerSelection === "rock" && computerSelection === "paper")) ||
-            (playerSelection === "paper" && computerSelection === "scissors")){
-                return "The computer is the winner of this round";
+        else if ((playerChoice.textContent === "scissors" && computerChoice.textContent === "rock") ||
+        ((playerChoice.textContent === "rock" && computerChoice.textContent === "paper")) ||
+        (playerChoice.textContent === "paper" && computerChoice.textContent === "scissors")){
+        computerScore.textContent ++;
+            if(computerScore.textContent === "5"){
+            winnerSelectionText.textContent = "The computer is the winner!";
             }
-}
-
-let playerCount = 0;
-let computerCount = 0;
-
-function game(){
-    while (playerCount < 6 || computerCount < 6){
-       let roundWinner = playRound(getPlayerChoice(),getComputerChoice(choices));
-       if (roundWinner === "There is a tie!") {
-        console.log("There is a tie, no point is given.");
-        
-       } else if (roundWinner === "The player is the winner of this round"){
-        playerCount++;
-        console.log("The player won and their score is: " + playerCount);
-            if (playerCount === 5){
-                console.log("The player has won the game with 5 points!");
-                break;
-            }
-       }
-       else if (roundWinner === "The computer is the winner of this round"){
-        computerCount++;
-        console.log("The computer won and their score is: " + computerCount);
-            if (computerCount === 5){
-                console.log("The computer has won the game with 5 points!");
-                break;
         }
-       }
-    }       
 }
+    
 
-game();
+playerRockButton.addEventListener("click", () => {
+    playerChoice.textContent = "rock";
+    computerChoice.textContent = getComputerChoice(choices);
+    })
+
+playerRockButton.addEventListener("click", playGame);
+
+
+playerPaperButton.addEventListener("click", () => {
+    playerChoice.textContent = "paper";
+    computerChoice.textContent = getComputerChoice(choices);
+    })
+
+playerPaperButton.addEventListener("click",playGame);
+
+
+playerScissorsButton.addEventListener("click", () => {
+    playerChoice.textContent = "scissors";
+    computerChoice.textContent = getComputerChoice(choices);
+})
+
+playerScissorsButton.addEventListener("click",playGame);
+
+
+
+
+
+
+
+
+
+
